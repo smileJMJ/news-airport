@@ -1,0 +1,35 @@
+html, body {
+    top: 0 !important;
+    color: #333;
+    font-family: 'Noto Sans KR', 'Noto Sans', sans-serif;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.pd-common {
+    padding: 0 15px;
+}
+
+// button
+.btn {
+    display: block;
+}
+.btn-icon {
+    display: block;
+    
+    &::before {
+        font-family: 'Linearicons-Free';
+    }
+}
+
+// translate
+#goog-gt-tt,
+.goog-te-banner-frame,
+.goog-te-menu-frame {
+    display: none !important;
+}
