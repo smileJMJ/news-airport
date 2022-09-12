@@ -22,5 +22,16 @@ const routes = [
 
 export const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    scrollBehavior(to, from ,savedPosition) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if(savedPosition) {
+                    resolve(savedPosition);
+                } else {
+                    resolve({ top: 0 });
+                }
+            }, 800);
+        });
+    }
 });

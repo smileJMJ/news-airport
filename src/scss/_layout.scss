@@ -22,7 +22,8 @@ html, body {
 .btn-icon {
     display: block;
     
-    &::before {
+    &::before,
+    &::after {
         font-family: 'Linearicons-Free';
     }
 }

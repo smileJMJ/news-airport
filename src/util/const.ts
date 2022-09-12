@@ -15,8 +15,21 @@ export const LANG: {[key: string]: LangType} = {
     en: 'en'
 };
 
+// API 언어 명칭
+export const API_LANG = {
+    ko: [
+        {lang: 'ko', name: '한국'},
+        {lang: 'en', name: '영어권'}
+    ],
+    en: [
+        {lang: 'ko', name: 'Korean'},
+        {lang: 'en', name: 'English'}
+    ]
+}
+
 // page size
 export const MIN_PAGE_SIZE = 1;
+export const MAX_ARTICLE_SIZE = 25;
 
 // 번역 언어 종류
 export const TL_LANG = {

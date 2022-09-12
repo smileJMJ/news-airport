@@ -1,11 +1,5 @@
 <template>
     <div class="searchbar-wrap pd-common">
-        <div class="searchbar">
-            <input type="text" v-model="keyword" @change="changeKeyword" placeholder="검색어 입력 (영어/한국어)" />
-            <button type="button" class="btn-icon search" @click.prevent="searchKeyword">
-                <span class="hidden">검색</span>
-            </button>
-        </div>
         <div class="searchLang">
             <button v-for="item in langArr" :key="item.lang" 
                 type="button" 
@@ -14,24 +8,38 @@
                 {{ item.name }}
             </button>
         </div>
+        <div class="searchbar">
+            <input type="text" v-model="tempKeyword" @keyup="onKeyup" placeholder="검색어 입력 (한국어/영어)" />
+            <button type="button" class="btn-icon search" @click.prevent="searchKeyword">
+                <span class="hidden">검색</span>
+            </button>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 import { LangType } from '@/type';
-import { LANG, TL_LANG } from '@/util/const';
+import { LANG, API_LANG } from '@/util/const';
 
 interface IProps {
     lang: LangType;
     currentTranslateLang: LangType;
+    keyword?: string;
 }
 
 const props = defineProps<IProps>();
-const { lang, currentTranslateLang } = toRefs(props);
-const keyword = ref<string>('');
+const { lang, currentTranslateLang, keyword } = toRefs(props);
+const tempKeyword = ref<string>(keyword.value || '');
 const emit = defineEmits(['onChangeLang', 'onSearchKeyword']);
-const langArr = TL_LANG[currentTranslateLang.value];
+const langArr = API_LANG[currentTranslateLang.value || LANG.ko];
+
+// input callback
+const onKeyup = (e: any) => {
+    if(e.key === 'Enter' || e.keyCode === 13) {
+        searchKeyword();
+    }
+};
 
 // 검색 언어 변경
 const changeLang = (lang: LangType) => {
@@ -40,12 +48,15 @@ const changeLang = (lang: LangType) => {
 
 // 검색
 const searchKeyword = () => {
-    emit('onSearchKeyword', keyword.value);
+    emit('onSearchKeyword', tempKeyword.value);
 };
 </script>
 
 <style lang="scss" scoped>
 .searchbar-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-top: 15px;
     padding-bottom: 15px;
     background: #f5f7f8;
@@ -54,11 +65,14 @@ const searchKeyword = () => {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
+        margin-left: 10px;
 
         input {
             width: 100%;
             height: 40px;
             padding: 0 10px;
+            font-size: 14px;
             background: transparent;
             border: 0;
             border-bottom: 2px solid #009eff;
@@ -73,17 +87,39 @@ const searchKeyword = () => {
 
             &::before {
                 content: '\e86f';
-                font-size: 32px;
+                font-size: 25px;
                 color: #009eff;
             }
         }
     }
 
     .searchLang {
+        flex-shrink: 0;
+
         .btn {
+            display: inline-block;
+            max-width: 60px;
+            height: 40px;
+            padding: 0 8px;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
+            background: #fff;
+            transition: all .2s ease-out;
+
+            &:nth-child(1) {
+                border-radius: 5px 0 0 5px;
+            }
+            &:nth-child(2) {
+                border-radius: 0 5px 5px 0;
+            }
+
             &.active {
                 font-weight: 700;
-                color: #009eff;
+                color: #fff;
+                background: #009eff;
             }
         }
     }

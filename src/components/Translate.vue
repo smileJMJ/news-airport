@@ -1,11 +1,12 @@
 <template>
     <div id="google_translate_element" class="hidden"></div>
-    <button type="button" class="btn-icon pd-common translate" @click="openTlLang">
+    <button type="button" class="btn-icon pd-common translate" @click="toggleTlLang">
         <span class="hidden">번역</span>
     </button>
     <div v-show="translateLayerOpen" class="translate-layer pd-common">
+        <p>번역어를 선택해주세요.</p>
         <ul>
-            <li v-for="item in TL_LANG[currentTranslateLang]" :key="item.lang"
+            <li v-for="item in TL_LANG[currentTranslateLang || LANG.ko]" :key="item.lang"
                 :class="currentTranslateLang === item.lang ? 'active' : ''">
                 <button type="button" @click="e => changeTlLang(item.lang)">{{ item.name }}</button>
             </li>
@@ -17,10 +18,10 @@
 import { computed, onMounted } from 'vue';
 import { useUiStore } from '@/store/uiStore';
 import { LangType } from '@/type';
-import { TL_LANG } from '@/util/const';
+import { TL_LANG, LANG } from '@/util/const';
 
 const store = useUiStore();
-const currentTranslateLang = computed<LangType>(() => store.currentTranslateLang);
+const currentTranslateLang = computed<LangType | null>(() => store.currentTranslateLang);
 const translateLayerOpen = computed<boolean>(() => store.translateLayerOpen);
 
 onMounted(() => {
@@ -34,8 +35,13 @@ onMounted(() => {
 });
 
 // 번역 언어 선택 레이어 오픈
-const openTlLang = () => {
+const toggleTlLang = () => {
     store.setTranslateLayerOpen(!translateLayerOpen.value);
+};
+
+// 번역 언어 선택 레이어 닫기
+const closeTlLang = () => {
+    store.setTranslateLayerOpen(false);
 };
 
 // 번역 언어 변경
@@ -50,6 +56,7 @@ const changeTlLang = (lang: LangType) => {
     store.setCurrentTranslateLang(lang);
     $combo.value = lang;
     $combo.dispatchEvent(new Event('change'));
+    closeTlLang();
 };
 </script>
 
@@ -65,9 +72,16 @@ const changeTlLang = (lang: LangType) => {
     right: 0;
     top: 100%;
     z-index: 10;
-    width: 100px;
-    background: #fff;
+    width: 100%;
+    text-align: center;
+    background: #333;
     box-shadow: -2px 3px 10px rgba(0,0,0,0.1);
+
+    p {
+        margin: 15px 0;
+        font-weight: 500;
+        color: #fff;
+    }
 
     li {
         padding: 10px 0;
@@ -83,7 +97,7 @@ const changeTlLang = (lang: LangType) => {
             display: block;
             width: 100%;
             font-size: 14px;
-            text-align: right;
+            color: #fff;
         }
     }
 }

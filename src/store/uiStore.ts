@@ -1,16 +1,21 @@
 import { defineStore } from 'pinia';
 import { LangType } from '@/type';
-import { LANG } from '@/util/const';
+import { TL_LANG } from '@/util/const';
+import { getCookie } from '@/util/Cookie';
 
 
 interface IState {
-    currentTranslateLang: LangType;
+    currentTranslateLang: LangType | null;
     translateLayerOpen: boolean;
 }
 
+// 초기 번역어는 cookie내 googtrans 값으로 알 수 있음
+const transCookie = getCookie()?.googtrans?.split('/');
+const transCookieVal = transCookie?.length > 0 ? transCookie[transCookie.length - 1] : null;
+
 export const useUiStore = defineStore('uiStore', {
     state: (): IState => ({
-        currentTranslateLang: LANG.ko,
+        currentTranslateLang: transCookieVal in TL_LANG ? transCookieVal : null,
         translateLayerOpen: false
     }),
     
