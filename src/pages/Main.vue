@@ -12,12 +12,6 @@
                 <ListItem :article="item" @onClickArticle="clickArticle" />
             </li>
         </ul>
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-4552663405831630"
-            data-ad-slot="8715858843"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
         <div v-if="!isLastPage && articles.length > 0" class="more-wrap">
             <button type="button" class="btn-icon" @click="moreArticles">더보기</button>
         </div>
@@ -33,12 +27,6 @@
     </div>
     <div v-else class="bookmark-wrap">
         <BookmarkList />
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-4552663405831630"
-            data-ad-slot="8715858843"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
     </div>
 </template>
 <script lang="ts" setup>

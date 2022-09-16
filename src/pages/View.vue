@@ -10,12 +10,6 @@
         <figure v-if="currentArticle.media">
             <img :src="currentArticle.media" alt="" />
         </figure>
-        <ins class="adsbygoogle"
-            style="display:block; text-align:center;"
-            data-ad-layout="in-article"
-            data-ad-format="fluid"
-            data-ad-client="ca-pub-4552663405831630"
-            data-ad-slot="2869469940"></ins>
         <div class="summary">
             {{ currentArticle.summary }}
         </div>
