@@ -1,18 +1,20 @@
 <template>
     <div class="searchbar-wrap pd-common">
-        <div class="searchLang">
-            <button v-for="item in langArr" :key="item.lang" 
-                type="button" 
-                :class="{btn: true, active: lang === item.lang}"
-                @click="e => changeLang(item.lang)">
-                {{ item.name }}
-            </button>
-        </div>
-        <div class="searchbar">
-            <input type="text" v-model="tempKeyword" @keyup="onKeyup" placeholder="검색어 입력 (한국어/영어)" />
-            <button type="button" class="btn-icon search" @click.prevent="searchKeyword">
-                <span class="hidden">검색</span>
-            </button>
+        <div class="searchbar-inner">
+            <div class="searchLang">
+                <button v-for="item in langArr" :key="item.lang" 
+                    type="button" 
+                    :class="{btn: true, active: lang === item.lang}"
+                    @click="e => changeLang(item.lang)">
+                    {{ item.name }}
+                </button>
+            </div>
+            <div class="searchbar">
+                <input type="text" v-model="tempKeyword" @keyup="onKeyup" placeholder="검색어 입력 (한국어/영어)" />
+                <button type="button" class="btn-icon search" @click.prevent="searchKeyword">
+                    <span class="hidden">검색</span>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -54,72 +56,78 @@ const searchKeyword = () => {
 
 <style lang="scss" scoped>
 .searchbar-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    position: sticky;
+    left: 0;
+    top: 0;
     background: #f5f7f8;
 
-    .searchbar {
+    .searchbar-inner {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
-        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
 
-        input {
+        .searchbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 100%;
-            height: 40px;
-            padding: 0 10px;
-            font-size: 14px;
-            background: transparent;
-            border: 0;
-            border-bottom: 2px solid #009eff;
+            margin-left: 10px;
+
+            input {
+                width: 100%;
+                height: 40px;
+                padding: 0 10px;
+                font-size: 14px;
+                background: transparent;
+                border: 0;
+                border-bottom: 2px solid #009eff;
+            }
+
+            .btn-icon {
+                flex-shrink: 0;
+                width: 40px;
+                height: 40px;
+                background: transparent;
+                border-bottom: 2px solid #009eff;
+
+                &::before {
+                    content: '\e86f';
+                    font-size: 25px;
+                    color: #009eff;
+                }
+            }
         }
 
-        .btn-icon {
+        .searchLang {
             flex-shrink: 0;
-            width: 40px;
-            height: 40px;
-            background: transparent;
-            border-bottom: 2px solid #009eff;
 
-            &::before {
-                content: '\e86f';
-                font-size: 25px;
-                color: #009eff;
-            }
-        }
-    }
+            .btn {
+                display: inline-block;
+                max-width: 60px;
+                height: 40px;
+                padding: 0 8px;
+                font-size: 12px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                vertical-align: middle;
+                background: #fff;
+                transition: all .2s ease-out;
 
-    .searchLang {
-        flex-shrink: 0;
+                &:nth-child(1) {
+                    border-radius: 5px 0 0 5px;
+                }
+                &:nth-child(2) {
+                    border-radius: 0 5px 5px 0;
+                }
 
-        .btn {
-            display: inline-block;
-            max-width: 60px;
-            height: 40px;
-            padding: 0 8px;
-            font-size: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            vertical-align: middle;
-            background: #fff;
-            transition: all .2s ease-out;
-
-            &:nth-child(1) {
-                border-radius: 5px 0 0 5px;
-            }
-            &:nth-child(2) {
-                border-radius: 0 5px 5px 0;
-            }
-
-            &.active {
-                font-weight: 700;
-                color: #fff;
-                background: #009eff;
+                &.active {
+                    font-weight: 700;
+                    color: #fff;
+                    background: #009eff;
+                }
             }
         }
     }

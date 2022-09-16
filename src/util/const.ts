@@ -42,3 +42,6 @@ export const TL_LANG = {
         {lang: 'en', name: 'English'}
     ]
 }
+
+// LocalStorage key
+export const LocalStorageKeyName = 'newsairport-bookmark';
