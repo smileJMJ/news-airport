@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Main from '@/pages/Main.vue';
 import View from '@/pages/View.vue';
 import Bookmark from '@/pages/Bookmark.vue';
+import Privacy from '@/pages/Privacy.vue';
 
 const routes = [
     {
@@ -17,6 +18,10 @@ const routes = [
         path: '/bookmark',
         name: 'Bookmark',
         component: Bookmark
+    },{
+        path: '/privacy',
+        name: 'Privacy',
+        component: Privacy
     },
 ];
 
