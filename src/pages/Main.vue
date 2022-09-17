@@ -27,6 +27,9 @@
     <div v-else class="bookmark-wrap">
         <BookmarkList />
     </div>
+    <Modal>
+        <p>검색어를 입력해주세요.</p>
+    </Modal>
 </template>
 <script lang="ts" setup>
 import { computed, ref, onMounted } from 'vue';
@@ -34,7 +37,8 @@ import { useSearchStore } from '@/store/searchStore';
 import { useUiStore } from '@/store/uiStore';
 import SearchBar from '@/components/SearchBar.vue';
 import ListItem from '@/components/ListItem.vue';
-import BookmarkList from './BookmarkList.vue';
+import BookmarkList from '@/pages/BookmarkList.vue';
+import Modal from '@/components/Modal.vue';
 import { LangType, IArticle } from '@/type';
 
 const store = useSearchStore();
@@ -59,7 +63,7 @@ const changeLang = (lang: LangType) => {
 // 검색
 const searchKeyword = async (keyword: string) => {
     if(!keyword) {
-        alert('검색어를 입력해주세요.');
+        uiStore.setModalOpen(true);
         return;
     }
     

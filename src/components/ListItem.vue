@@ -1,7 +1,7 @@
 <template>
     <div class="list-item">
         <figure>
-            <router-link :to="`/view/${article._id}`">
+            <router-link :to="`/view/${article._id}`" @click="e => clickArticle(article)">
                 <img :src="article.media" alt="" />
             </router-link>
         </figure>

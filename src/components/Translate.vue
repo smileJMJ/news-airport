@@ -12,11 +12,14 @@
             </li>
         </ul>
     </div>
+    <Modal>
+        <p>현재 번역 서비스를 이용하실 수 없습니다.</p>
+    </Modal>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUpdated } from 'vue';
-import { onBeforeRouteUpdate } from 'vue-router';
+import { computed } from 'vue';
+import Modal from '@/components/Modal.vue';
 import { useUiStore } from '@/store/uiStore';
 import { LangType } from '@/type';
 import { TL_LANG, LANG } from '@/util/const';
@@ -27,10 +30,10 @@ const translateLayerOpen = computed<boolean>(() => store.translateLayerOpen);
 
 window.googleTranslateElementInit = () => {
     new window.google.translate.TranslateElement({
-            pageLanguage: currentTranslateLang.value,
-            includedLanguages: 'en,ko',
-            autoDisplay: false
-        }, 'google_translate_element');
+        pageLanguage: currentTranslateLang.value,
+        includedLanguages: 'en,ko',
+        autoDisplay: false
+    }, 'google_translate_element');
 };
 
 // 번역 언어 선택 레이어 오픈
@@ -48,7 +51,7 @@ const changeTlLang = (lang: LangType) => {
     const $combo = document.querySelector('.goog-te-combo');
 
     if(!$combo) {
-        alert('현재 번역 서비스를 이용하실 수 없습니다.');
+        store.setModalOpen(true);
         return;
     }
 

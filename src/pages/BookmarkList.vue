@@ -22,8 +22,10 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import ListItem from '@/components/ListItem.vue';
+import Modal from '@/components/Modal.vue';
 import { useBookmarkStore } from '@/store/bookmarkStore';
 import { useSearchStore } from '@/store/searchStore';
+import { useUiStore } from '@/store/uiStore';
 import { IArticle } from '@/type';
 
 interface IProps {
@@ -34,6 +36,7 @@ const props = defineProps<IProps>();
 const { useDelete } = toRefs(props);
 const store = useBookmarkStore();
 const searchStore = useSearchStore();
+const uiStore = useUiStore();
 const bookmarkArticles = computed<IArticle[]>(() => store.bookmarkArticles);
 
 // 기사 클릭 - 현재 기사 데이터 저장
