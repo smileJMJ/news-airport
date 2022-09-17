@@ -1,5 +1,5 @@
 <template>
-    <Header type="saveBookmark" />
+    <!-- <Header type="saveBookmark" /> -->
     <section v-if="currentArticle" class="article-wrap pd-common">
         <h1>{{ currentArticle.title }}</h1>
         <div class="info">
@@ -22,13 +22,14 @@
 <script lang="ts" setup>
 import { computed, watch, onMounted } from 'vue';
 import { useRouter, onBeforeRouteUpdate } from 'vue-router';
-import Header from '@/components/Header.vue';
 import { useSearchStore } from '@/store/searchStore';
 import { useBookmarkStore } from '@/store/bookmarkStore';
+import { useUiStore } from '@/store/uiStore';
 import { IArticle } from '@/type';
 
 const store = useSearchStore();
 const bookmarkStore = useBookmarkStore();
+const uiStore = useUiStore();
 const router = useRouter();
 const currentArticle = computed<IArticle>(() => store.currentArticle);
 const isSavedBookmark = computed<boolean>(() => bookmarkStore.bookmarkArticles.filter(v => v._id === currentArticle.value._id)?.length > 0);
@@ -40,7 +41,6 @@ const goMain = () => {
 
 // 북마크 저장
 const saveBookmark = () => {
-    console.log('isSavedBookmark.value', isSavedBookmark.value); 
     isSavedBookmark.value ? bookmarkStore.removeBookmarkArticle(currentArticle.value) : bookmarkStore.setBookmarkArticles(currentArticle.value);
 };
 
@@ -48,6 +48,8 @@ onMounted(() => {
     if(!currentArticle.value) {
         goMain();
     }
+
+    uiStore.setHeaderType('saveBookmark');
 });
 
 watch(currentArticle, (current, prev) => {

@@ -16,9 +16,10 @@ import { toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import Logo from '@/components/Logo.vue';
 import Translate from '@/components/Translate.vue';
+import { HeaderType } from '@/type';
 
 interface IProps {
-    type: 'default' | 'back' | 'saveBookmark'
+    type: HeaderType
 }
 
 const props = defineProps<IProps>();

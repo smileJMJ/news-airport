@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
-import { LangType } from '@/type';
+import { LangType, HeaderType } from '@/type';
 import { TL_LANG } from '@/util/const';
 import { getCookie } from '@/util/Cookie';
 
 
 interface IState {
+    headerType: HeaderType;
     currentTranslateLang: LangType | null;
     translateLayerOpen: boolean;
 }
@@ -15,11 +16,17 @@ const transCookieVal = transCookie?.length > 0 ? transCookie[transCookie.length 
 
 export const useUiStore = defineStore('uiStore', {
     state: (): IState => ({
-        currentTranslateLang: transCookieVal in TL_LANG ? transCookieVal : null,
+        headerType: 'default',
+        //currentTranslateLang: transCookieVal in TL_LANG ? transCookieVal : null,
+        currentTranslateLang: null,
         translateLayerOpen: false
     }),
     
     actions: {
+        setHeaderType(headerType: HeaderType) {
+            this.headerType = headerType;
+        },
+
         setCurrentTranslateLang(lang: LangType) {
             this.currentTranslateLang = lang;
         },

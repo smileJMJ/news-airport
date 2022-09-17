@@ -15,7 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, onUpdated } from 'vue';
+import { onBeforeRouteUpdate } from 'vue-router';
 import { useUiStore } from '@/store/uiStore';
 import { LangType } from '@/type';
 import { TL_LANG, LANG } from '@/util/const';
@@ -24,15 +25,13 @@ const store = useUiStore();
 const currentTranslateLang = computed<LangType | null>(() => store.currentTranslateLang);
 const translateLayerOpen = computed<boolean>(() => store.translateLayerOpen);
 
-onMounted(() => {
-    window.googleTranslateElementInit = () => {
-        new window.google.translate.TranslateElement({
-                pageLanguage: currentTranslateLang.value,
-                includedLanguages: 'en,ko',
-                autoDisplay: false
-            }, 'google_translate_element');
-    };
-});
+window.googleTranslateElementInit = () => {
+    new window.google.translate.TranslateElement({
+            pageLanguage: currentTranslateLang.value,
+            includedLanguages: 'en,ko',
+            autoDisplay: false
+        }, 'google_translate_element');
+};
 
 // 번역 언어 선택 레이어 오픈
 const toggleTlLang = () => {

@@ -1,5 +1,4 @@
 <template>
-    <Header type="default" />
     <SearchBar 
         :keyword="keyword"
         :lang="lang"
@@ -30,10 +29,9 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useSearchStore } from '@/store/searchStore';
 import { useUiStore } from '@/store/uiStore';
-import Header from '@/components/Header.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import ListItem from '@/components/ListItem.vue';
 import BookmarkList from './BookmarkList.vue';
@@ -48,6 +46,10 @@ const isLastPage = computed<boolean>(() => store.isLastPage);
 const currentTranslateLang = computed<LangType>(() => uiStore.currentTranslateLang);
 let isSearchSuccess = ref<boolean>();
 let isSearching = ref<boolean>();
+
+onMounted(() => {
+    uiStore.setHeaderType('default');
+});
 
 // 검색 언어 변경
 const changeLang = (lang: LangType) => {

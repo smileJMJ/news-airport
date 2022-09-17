@@ -6,6 +6,9 @@ declare global {
     }
 }
 
+// 헤더 타입
+export type HeaderType = 'default' | 'back' | 'saveBookmark';
+
 // 언어
 export type LangType = 'ko' | 'en';
 

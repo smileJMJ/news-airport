@@ -1,5 +1,4 @@
 <template>
-    <Header type="back" />
     <div class="pd-common">
         <p>
             <em>
@@ -143,13 +142,19 @@
     </div>
 </template>
 <script lang="ts" setup>
-    import Header from '@/components/Header.vue';
+import { onMounted } from 'vue';
+import { useUiStore } from '@/store/uiStore';
+
+const uiStore = useUiStore();
+onMounted(() => {
+    uiStore.setHeaderType('back');
+});
 </script>
 <style lang="scss" scoped>
     .pd-common {
         padding-top: 20px;
         padding-bottom: 20px;
-        
+
         * {
             font-size: 14px;
             font-style: normal;
