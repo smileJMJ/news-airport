@@ -10,13 +10,20 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
+import { toRefs, watch } from 'vue';
 import { useUiStore } from '@/store/uiStore';
 
+interface IProps {
+    modalOpen: boolean;
+}
+
+const props = defineProps<IProps>();
+const { modalOpen = false } = toRefs(props);
 const store = useUiStore();
-const modalOpen = computed<boolean>(() => store.modalOpen);
+const emit = defineEmits(['onCloseModal']);
+
 const closeModal = () => {
-    store.setModalOpen(false);
+    emit('onCloseModal');
 }
 
 watch(modalOpen, (newValue) => {

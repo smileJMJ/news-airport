@@ -22,7 +22,6 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import ListItem from '@/components/ListItem.vue';
-import Modal from '@/components/Modal.vue';
 import { useBookmarkStore } from '@/store/bookmarkStore';
 import { useSearchStore } from '@/store/searchStore';
 import { useUiStore } from '@/store/uiStore';

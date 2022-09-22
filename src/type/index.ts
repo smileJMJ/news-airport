@@ -19,7 +19,7 @@ export type PageSizeDir = 'prev' | 'next';
 export interface IArticle {
     title: string;
     author: string;
-    published_data: string;
+    published_date: string;
     published_date_precision: string;
     link: string;
     clean_url: string;

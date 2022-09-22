@@ -3,8 +3,10 @@
         :keyword="keyword"
         :lang="lang"
         :currentTranslateLang="currentTranslateLang"
+        :filterDate="filterDate"
         @onChangeLang="changeLang" 
-        @onSearchKeyword="searchKeyword" />
+        @onSearchKeyword="searchKeyword"
+        @onChangeFilterDate="setFilterDate" />
     <div v-if="articles.length > 0" class="list-wrap pd-common">
         <ul>
             <li v-for="item in articles" :key="item._id">
@@ -27,7 +29,7 @@
     <div v-else class="bookmark-wrap">
         <BookmarkList />
     </div>
-    <Modal>
+    <Modal :modalOpen="modalOpen" @onCloseModal="closeModal">
         <p>검색어를 입력해주세요.</p>
     </Modal>
 </template>
@@ -46,8 +48,10 @@ const uiStore = useUiStore();
 const keyword = computed<string>(() => store.keyword);
 const lang = computed<LangType>(() => store.lang);
 const articles = computed<IArticle[]>(() => store.articles);
+const filterDate = computed<string>(() => store.filterDate);
 const isLastPage = computed<boolean>(() => store.isLastPage);
 const currentTranslateLang = computed<LangType>(() => uiStore.currentTranslateLang);
+const modalOpen = ref<boolean>(false);
 let isSearchSuccess = ref<boolean>();
 let isSearching = ref<boolean>();
 
@@ -63,7 +67,7 @@ const changeLang = (lang: LangType) => {
 // 검색
 const searchKeyword = async (keyword: string) => {
     if(!keyword) {
-        uiStore.setModalOpen(true);
+        modalOpen.value = true;
         return;
     }
     
@@ -72,6 +76,11 @@ const searchKeyword = async (keyword: string) => {
     isSearching.value = true;
     isSearchSuccess.value = await store.search();
     isSearching.value = false;
+};
+
+// 날짜 필터
+const setFilterDate = (date: string) => {
+    store.setFilterDate(date);
 };
 
 // 기사 클릭 - 현재 기사 데이터 저장
@@ -83,6 +92,11 @@ const clickArticle = (article: IArticle) => {
 const moreArticles = async () => {
     store.setPageSize('next');
     isSearchSuccess.value = await store.search();
+};
+
+// 모달 닫기
+const closeModal = () => {
+    modalOpen.value = false;
 };
 </script>
 

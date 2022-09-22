@@ -12,13 +12,13 @@
             </li>
         </ul>
     </div>
-    <Modal>
+    <Modal :modalOpen="modalOpen" @onCloseModal="closeModal">
         <p>현재 번역 서비스를 이용하실 수 없습니다.</p>
     </Modal>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Modal from '@/components/Modal.vue';
 import { useUiStore } from '@/store/uiStore';
 import { LangType } from '@/type';
@@ -27,6 +27,7 @@ import { TL_LANG, LANG } from '@/util/const';
 const store = useUiStore();
 const currentTranslateLang = computed<LangType | null>(() => store.currentTranslateLang);
 const translateLayerOpen = computed<boolean>(() => store.translateLayerOpen);
+const modalOpen = ref<boolean>(false);
 
 window.googleTranslateElementInit = () => {
     new window.google.translate.TranslateElement({
@@ -51,7 +52,7 @@ const changeTlLang = (lang: LangType) => {
     const $combo = document.querySelector('.goog-te-combo');
 
     if(!$combo) {
-        store.setModalOpen(true);
+        modalOpen.value = true;
         return;
     }
 
@@ -59,6 +60,11 @@ const changeTlLang = (lang: LangType) => {
     $combo.value = lang;
     $combo.dispatchEvent(new Event('change'));
     closeTlLang();
+};
+
+// 모달 닫기
+const closeModal = () => {
+    modalOpen.value = false;
 };
 </script>
 

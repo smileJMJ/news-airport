@@ -7,7 +7,9 @@ interface IState {
     keyword: string;
     lang: LangType;
     articles: IArticle[];
+    originArticles: IArticle[];
     currentArticle: IArticle | null;
+    filterDate: string | null;
     page: number;
     totalPages: number;
 }
@@ -17,7 +19,9 @@ export const useSearchStore = defineStore('searchStore', {
         keyword: '',
         lang: LANG.en,
         articles: [],
+        originArticles: [],
         currentArticle: null,
+        filterDate: null,
         page: MIN_PAGE_SIZE,
         totalPages: MIN_PAGE_SIZE
     }),
@@ -44,8 +48,17 @@ export const useSearchStore = defineStore('searchStore', {
         // article 추가
         setArticles(articles = []) {
             if(Array.isArray(articles) && articles.length > 0) {
-                this.articles = [...this.articles, ...articles];
+                const sortArticles = articles.sort((a: IArticle, b: IArticle) => new Date(b.published_date) - new Date(a.published_date)); // 날짜순 정렬
+                this.originArticles = [...this.originArticles, ...sortArticles];
+                
+                this.setDateFilterData();
             }
+        },
+
+        // 필터 날짜
+        setFilterDate(date: string) {
+            this.filterDate = date;
+            this.setDateFilterData();
         },
 
         // 페이지 사이즈
@@ -58,6 +71,7 @@ export const useSearchStore = defineStore('searchStore', {
             this.page = MIN_PAGE_SIZE;
             this.totalPages = MIN_PAGE_SIZE;
             this.articles = [];
+            this.originArticles = [];
         },
 
         // 클릭한 기사 데이터
@@ -97,6 +111,17 @@ export const useSearchStore = defineStore('searchStore', {
                     resolve(false);
                 });
             });
+        },
+
+        // // 필터 데이터
+        setDateFilterData() {
+            const originArticles = [...this.originArticles];
+
+            if(this.filterDate) {
+                this.articles = originArticles.filter(v => new Date(v.published_date) >= new Date(`${this.filterDate} 00:00`));
+            } else {
+                this.articles = originArticles;
+            }
         }
     }
 });

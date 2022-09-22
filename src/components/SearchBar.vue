@@ -16,6 +16,12 @@
                 </button>
             </div>
         </div>
+        <div class="filter-wrap">
+            <div class="searchbar-inner">
+                <span>발행일</span>
+                <input type="date" v-model="tempFilterDate" @change="setFilterDate"/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -28,12 +34,14 @@ interface IProps {
     lang: LangType;
     currentTranslateLang: LangType;
     keyword?: string;
+    filterDate?: string;
 }
 
 const props = defineProps<IProps>();
-const { lang, currentTranslateLang, keyword } = toRefs(props);
+const { lang, currentTranslateLang, keyword, filterDate } = toRefs(props);
 const tempKeyword = ref<string>(keyword.value || '');
-const emit = defineEmits(['onChangeLang', 'onSearchKeyword']);
+const tempFilterDate = ref<string>(filterDate.value || '');
+const emit = defineEmits(['onChangeLang', 'onSearchKeyword', 'onChangeFilterDate']);
 const langArr = API_LANG[currentTranslateLang.value || LANG.ko];
 
 // input callback
@@ -52,6 +60,11 @@ const changeLang = (lang: LangType) => {
 const searchKeyword = () => {
     emit('onSearchKeyword', tempKeyword.value);
 };
+
+// 날짜 필터
+const setFilterDate = () => {
+    emit('onChangeFilterDate', tempFilterDate.value);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -68,22 +81,23 @@ const searchKeyword = () => {
         padding-top: 15px;
         padding-bottom: 15px;
 
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 0 10px;
+            font-family: 'Noto Sans KR';
+            font-size: 14px;
+            background: transparent;
+            border: 0;
+            border-bottom: 2px solid #009eff;
+        }
+
         .searchbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
             margin-left: 10px;
-
-            input {
-                width: 100%;
-                height: 40px;
-                padding: 0 10px;
-                font-size: 14px;
-                background: transparent;
-                border: 0;
-                border-bottom: 2px solid #009eff;
-            }
 
             .btn-icon {
                 flex-shrink: 0;
@@ -131,5 +145,14 @@ const searchKeyword = () => {
             }
         }
     }
+    
+    .filter-wrap {
+        span {
+            flex-shrink: 0;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+    }
 }
+
 </style>

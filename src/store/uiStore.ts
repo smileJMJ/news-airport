@@ -8,7 +8,6 @@ interface IState {
     headerType: HeaderType;
     currentTranslateLang: LangType | null;
     translateLayerOpen: boolean;
-    modalOpen: boolean;
 }
 
 // 초기 번역어는 cookie내 googtrans 값으로 알 수 있음
@@ -20,8 +19,7 @@ export const useUiStore = defineStore('uiStore', {
         headerType: 'default',
         //currentTranslateLang: transCookieVal in TL_LANG ? transCookieVal : null,
         currentTranslateLang: null,
-        translateLayerOpen: false,
-        modalOpen: false
+        translateLayerOpen: false
     }),
     
     actions: {
@@ -35,10 +33,6 @@ export const useUiStore = defineStore('uiStore', {
 
         setTranslateLayerOpen(isOpen: boolean) {
             this.translateLayerOpen = isOpen;
-        },
-
-        setModalOpen(isOpen: boolean) {
-            this.modalOpen = isOpen;
         }
     }
 });
