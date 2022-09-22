@@ -17,10 +17,10 @@
             </div>
         </div>
         <div class="filter-wrap">
-            <div class="searchbar-inner">
+            <label class="searchbar-inner">
                 <span>발행일</span>
-                <input type="date" v-model="tempFilterDate" @change="setFilterDate" placeholder="2022-09-20"/>
-            </div>
+                <input type="date" v-model="tempFilterDate" @change="setFilterDate" />
+            </label>
         </div>
     </div>
 </template>
@@ -147,10 +147,20 @@ const setFilterDate = () => {
     }
     
     .filter-wrap {
-        span {
-            flex-shrink: 0;
-            margin-right: 15px;
-            font-size: 14px;
+        label {
+            span {
+                flex-shrink: 0;
+                margin-right: 15px;
+                font-size: 14px;
+            }
+
+            input::before {
+                display: inline-block;
+                content: '\e836';
+                margin-right: 15px;
+                font-family: 'Linearicons-Free';
+                font-size: 20px;
+            }
         }
     }
 }
