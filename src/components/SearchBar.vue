@@ -19,7 +19,7 @@
         <div class="filter-wrap">
             <div class="searchbar-inner">
                 <span>발행일</span>
-                <input type="date" v-model="tempFilterDate" @change="setFilterDate"/>
+                <input type="date" v-model="tempFilterDate" @change="setFilterDate" placeholder="2022-09-20"/>
             </div>
         </div>
     </div>
